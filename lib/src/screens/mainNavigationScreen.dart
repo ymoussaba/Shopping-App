@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/src/blocs/blocProvider.dart';
 import 'package:shopping_app/src/blocs/mainNavigationBloc.dart';
+import 'package:shopping_app/src/constants/appColors.dart';
+import 'package:shopping_app/src/constants/images.dart';
 import 'package:shopping_app/src/screens/home.dart';
 
 class MainNavigationScreen extends StatelessWidget {
@@ -42,20 +44,20 @@ class MainNavigationScreen extends StatelessWidget {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 backgroundColor: Colors.orange,
-                icon: Icon(Icons.home),
-                title: Text('HOME'),
+                icon: BarItemIcon(ImagesResources.homeIcon),
+                title: Text('Home'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                title: Text('CART'),
+                icon: BarItemIcon(ImagesResources.cartIcon),
+                title: Text('Cart'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                title: Text('PROFILE'),
+                icon: BarItemIcon(ImagesResources.profileIcon),
+                title: Text('Profile'),
               ),
             ],
             currentIndex: index,
-            fixedColor: Colors.orange,
+            iconSize: 12,
             onTap: (index) {
               navigationBloc.navigateTo(index);
             },
@@ -64,5 +66,9 @@ class MainNavigationScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget BarItemIcon(String icon){
+    return Image.asset(icon, color: AppColors.white, width: 24,);
   }
 }
