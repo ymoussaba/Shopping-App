@@ -8,16 +8,17 @@ import 'package:shopping_app/src/screens/mainNavigationScreen.dart';
 void main() => runApp(App());
 
 class App extends StatelessWidget {
-  // This widget is the root of your application.
+  final mainNavScreen = BlocProvider<MainNavigationBloc>(
+    bloc: MainNavigationBloc(),
+    child: MainNavigationScreen(),
+  );
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme,
-      home: BlocProvider<MainNavigationBloc>(
-        bloc: MainNavigationBloc(),
-        child: MainNavigationScreen(),
-      ),
+      home: mainNavScreen,
     );
   }
 }

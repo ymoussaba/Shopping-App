@@ -27,9 +27,10 @@ class Carousel extends StatelessWidget {
     ];
 
     return SizedBox(
+      width: 300,
       height: 200.0,
       child: Card(
-        elevation: 0,
+        elevation: 5,
         // borderOnForeground: true,
         color: AppColors.white,
         clipBehavior: Clip.hardEdge,

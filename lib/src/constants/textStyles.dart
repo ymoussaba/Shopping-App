@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shopping_app/src/constants/appColors.dart';
 
 class TextStyles {
+  static TextStyle barItemTitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.white,
+  );
   static TextStyle title = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
@@ -23,5 +28,19 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.bold,
     color: AppColors.white,
+  );
+  static const TextStyle productTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+  );
+  static const TextStyle productTag = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: AppColors.grey,
+  );
+  static TextStyle productPrice = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    color: AppColors.darkGrey,
   );
 }

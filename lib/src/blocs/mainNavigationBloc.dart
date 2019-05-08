@@ -18,12 +18,7 @@ class MainNavigationBloc extends BlocBase {
     _navBarController.sink.add(i);
   }
 
-  close() {
-    _navBarController?.close();
-  }
-
-  @override
   void dispose() {
-    close();
+    _navBarController?.close();
   }
 }
