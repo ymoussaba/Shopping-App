@@ -3,7 +3,7 @@ import 'package:shopping_app/src/blocs/blocProvider.dart';
 import 'package:shopping_app/src/blocs/mainNavigationBloc.dart';
 import 'package:shopping_app/src/constants/appColors.dart';
 import 'package:shopping_app/src/constants/images.dart';
-import 'package:shopping_app/src/screens/home.dart';
+import 'package:shopping_app/src/screens/home/home.dart';
 
 class MainNavigationScreen extends StatelessWidget {
   @override

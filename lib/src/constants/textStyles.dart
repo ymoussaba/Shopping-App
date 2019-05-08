@@ -14,30 +14,14 @@ class TextStyles {
     fontSize: 16,
     fontWeight: FontWeight.normal,
   );
-  static const _titleShadowColor = Color(0x99000000);
-  static const _subTitleShadowColor = Color(0x99FFFFFF);
   static const TextStyle slideTitle = TextStyle(
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: FontWeight.w900,
     color: AppColors.primary,
-    shadows: <Shadow>[
-      Shadow(
-        offset: Offset(0, 2),
-        blurRadius: 3,
-        color: _titleShadowColor,
-      ),
-    ]
   );
   static const TextStyle slideSubtitle = TextStyle(
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
-    color: AppColors.black,
-    shadows: <Shadow>[
-      Shadow(
-        offset: Offset(0, 1),
-        blurRadius: 10,
-        color: _subTitleShadowColor,
-      ),
-    ]
+    color: AppColors.white,
   );
 }

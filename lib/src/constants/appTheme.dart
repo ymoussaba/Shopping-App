@@ -5,10 +5,10 @@ var AppTheme = ThemeData(
   primarySwatch: AppColors.primary,
   fontFamily: "Montserrat",
   appBarTheme: AppBarTheme(
-    elevation: 0,
+    elevation: 1,
     color: AppColors.white,
     iconTheme: IconThemeData(color: AppColors.black, size: 24),
-    brightness: Brightness.light,
+    // brightness: Brightness.light,
   ),
   bottomAppBarTheme: BottomAppBarTheme(
     color: AppColors.white,
