@@ -9,9 +9,9 @@ class ProductApiProvider {
     _dio.interceptors.add(LogInterceptor(responseBody: false));
   }
 
-  Future<ProductsResponse> getProducts(int page, int limit) async {
+  Future<ProductsResponse> getProducts(int page, int limit, String filter) async {
     try {
-      Response response = await _dio.get("$_endpoint?page=$page&limit=$limit");
+      Response response = await _dio.get("$_endpoint?page=$page&limit=$limit&filter=$filter");
       return ProductsResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       print("ProductApiProvider Exception occured: $error stackTrace: $stacktrace");

@@ -26,10 +26,9 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
   static Type _typeOf<T>() => T;
 }
 
-class _BlocProviderState<T> extends State<BlocProvider<BlocBase>> with AutomaticKeepAliveClientMixin {
+class _BlocProviderState<T> extends State<BlocProvider<BlocBase>>{
   @override
   void dispose() {
-    print("_BlocProviderState ${widget.runtimeType} will dispose");
     widget.bloc.dispose();
     super.dispose();
   }
@@ -38,7 +37,4 @@ class _BlocProviderState<T> extends State<BlocProvider<BlocBase>> with Automatic
   Widget build(BuildContext context) {
     return widget.child;
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

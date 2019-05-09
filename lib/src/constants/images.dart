@@ -6,4 +6,5 @@ class ImagesResources {
   static const String cartIcon = "$_imageDir/cart.png";
   static const String profileIcon = "$_imageDir/profile.png";
   static const String chatIcon = "$_imageDir/chat.png";
+  static const String searchAnim = "$_imageDir/searching.gif";
 }

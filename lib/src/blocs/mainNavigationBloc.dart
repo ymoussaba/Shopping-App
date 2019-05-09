@@ -7,13 +7,12 @@ class MainNavigationBloc extends BlocBase {
 
   MainNavigationBloc() {
     //initializes the subject with the default index
-    _navBarController = new BehaviorSubject<int>.seeded(defaultIndex);
+    _navBarController = BehaviorSubject<int>.seeded(defaultIndex);
   }
 
   // the stream getter
   Observable<int> get navStream => _navBarController.stream;
 
-  //
   void navigateTo(int i) {
     _navBarController.sink.add(i);
   }

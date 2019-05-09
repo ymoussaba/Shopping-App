@@ -4,7 +4,7 @@ import 'package:shopping_app/src/models/product.dart';
 class ProductRepository {
   ProductApiProvider _apiProvider = ProductApiProvider();
 
-  Future<ProductsResponse> getProducts(int page, int limit) {
-    return _apiProvider.getProducts(page, limit);
+  Future<ProductsResponse> getProducts(int page, int limit, String filter) {
+    return _apiProvider.getProducts(page, limit, filter);
   }
 }

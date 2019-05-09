@@ -30,10 +30,10 @@ class Carousel extends StatelessWidget {
       width: 300,
       height: 200.0,
       child: Card(
-        elevation: 5,
+        elevation: 0,
         // borderOnForeground: true,
-        color: AppColors.white,
-        clipBehavior: Clip.hardEdge,
+        color: AppColors.black,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

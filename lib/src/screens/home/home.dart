@@ -1,29 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shopping_app/src/blocs/blocProvider.dart';
+import 'package:shopping_app/src/blocs/filterBloc.dart';
 import 'package:shopping_app/src/blocs/producBloc.dart';
 import 'package:shopping_app/src/constants/appColors.dart';
 import 'package:shopping_app/src/constants/images.dart';
 import 'package:shopping_app/src/constants/textStyles.dart';
 import 'package:shopping_app/src/screens/home/carousel.dart';
+import 'package:shopping_app/src/screens/home/filterBar.dart';
 import 'package:shopping_app/src/screens/home/productsList.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 500.0;
+  ProductBloc productBloc;
+  FilterBloc filterBloc;
 
   @override
-  Widget build(BuildContext context) {
-    var productBloc = BlocProvider.of<ProductBloc>(context);
+  void initState() {
+    super.initState();
+    productBloc = BlocProvider.of<ProductBloc>(context);
+    filterBloc = BlocProvider.of<FilterBloc>(context);
     productBloc.getProducts();
 
     _scrollController.addListener(() {
-      final maxScroll = _scrollController.position.maxScrollExtent;
-      final currentScroll = _scrollController.position.pixels;
-      if (maxScroll - currentScroll <= _scrollThreshold) {
-        productBloc.getProducts();
+      bool hasClient = _scrollController.hasClients;
+      bool hasCtlr = _scrollController.positions.length > 0;
+
+      if (!hasClient || hasCtlr) {
+        // print("hasClient || hasCtlr ");
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.position.pixels;
+        if (maxScroll - currentScroll <= _scrollThreshold) {
+          productBloc.getProducts();
+        }
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -49,37 +70,47 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        child: CustomScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          controller: _scrollController,
-          cacheExtent: 400,
-          slivers: <Widget>[
-            SliverAppBar(
-              title: Text(
-                'Sliver App Bar',
+        color: AppColors.lightestGrey,
+        child: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          backgroundColor: AppColors.primary,
+          color: AppColors.white,
+          child: CustomScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            key: Key("HomeCustomScrollView"),
+            controller: _scrollController,
+            cacheExtent: 400,
+            slivers: <Widget>[
+              FilterBar(),
+              SliverGrid.count(
+                crossAxisCount: 1,
+                childAspectRatio: 16 / 9,
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 0,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Carousel(),
+                  ),
+                ],
               ),
-              floating: true,
-              elevation: 4.0,
-            ),
-            SliverGrid.count(
-              crossAxisCount: 1,
-              childAspectRatio: 16 / 9,
-              crossAxisSpacing: 0,
-              mainAxisSpacing: 0,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Carousel(),
-                ),
-              ],
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(left: 12, right: 12, bottom: 20),
-              sliver: ProductsList(),
-            ),
-          ],
+              SliverPadding(
+                padding: EdgeInsets.only(left: 12, right: 12, bottom: 20),
+                sliver: ProductsList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<Null> _handleRefresh() async {
+    print("Refreshing");
+    productBloc.productsStream.listen((products) {
+      return null;
+    });
+    productBloc.getProducts(reload: true);
   }
 }
