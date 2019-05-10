@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -77,8 +78,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
           backgroundColor: AppColors.primary,
           color: AppColors.white,
           child: CustomScrollView(
-            // physics: AlwaysScrollableScrollPhysics(),
-            // scrollDirection: Axis.vertical,
             key: PageStorageKey("HomeCustomScrollView"),
             controller: _scrollController,
             // cacheExtent: 400,
@@ -90,18 +89,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     child: Carousel(),
                   ),
               ),
-              // SliverGrid.count(
-              //   crossAxisCount: 1,
-              //   childAspectRatio: 16 / 9,
-              //   crossAxisSpacing: 0,
-              //   mainAxisSpacing: 0,
-              //   children: <Widget>[
-              //     Padding(
-              //       padding: const EdgeInsets.all(12),
-              //       child: Carousel(),
-              //     ),
-              //   ],
-              // ),
               SliverPadding(
                 padding: EdgeInsets.only(left: 12, right: 12, bottom: 20),
                 sliver: ProductsList(),

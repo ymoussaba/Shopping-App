@@ -5,6 +5,7 @@ import 'package:shopping_app/src/blocs/filterBloc.dart';
 import 'package:shopping_app/src/blocs/mainNavigationBloc.dart';
 import 'package:shopping_app/src/blocs/producBloc.dart';
 import 'package:shopping_app/src/constants/appColors.dart';
+import 'package:shopping_app/src/constants/appSizes.dart';
 import 'package:shopping_app/src/constants/images.dart';
 import 'package:shopping_app/src/constants/textStyles.dart';
 import 'package:shopping_app/src/models/product.dart';
@@ -67,6 +68,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    //init the global appSizes once
+    if(appSizes == null){
+      appSizes = AppSizes.fromMediaQuery(MediaQuery.of(context));
+    }
 
     return Scaffold(
       body: StreamBuilder(

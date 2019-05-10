@@ -6,12 +6,14 @@ class RoundedButton extends StatelessWidget {
   final Color color;
   final Function onTap;
   final IconData icon;
+  final double borderRadius;
 
   RoundedButton({
     @required this.title,
     @required this.onTap,
     this.color = AppColors.primary,
     this.icon,
+    this.borderRadius = 8.0
   });
 
   @override
@@ -23,7 +25,7 @@ class RoundedButton extends StatelessWidget {
         side: BorderSide(
           style: BorderStyle.none,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       onPressed: onTap,
       child: Row(
