@@ -67,4 +67,8 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.white,
   );
+  static TextStyle productCartTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
 }

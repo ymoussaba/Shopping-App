@@ -60,6 +60,7 @@ class _ProductsListState extends State<ProductsList> {
 
   Widget _productCard(BuildContext context, Product product) {
     return Card(
+      color: AppColors.white,
       elevation: 0,
       clipBehavior: Clip.hardEdge,
       shape: RoundedRectangleBorder(
@@ -69,7 +70,8 @@ class _ProductsListState extends State<ProductsList> {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => ProductDetailsScreen(product: product, cartBloc: cartBloc),
+              builder: (_) =>
+                  ProductDetailsScreen(product: product, cartBloc: cartBloc),
             ),
           );
         },
@@ -82,11 +84,27 @@ class _ProductsListState extends State<ProductsList> {
               child: Stack(
                 alignment: Alignment.topRight,
                 children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    child: Image.network(
-                      product.image,
-                      fit: BoxFit.cover,
+                  Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        backgroundColor: AppColors.lightGrey,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.primary,
+                        ),
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                  Hero(
+                    tag: "heroProduct_${product.id}",
+                    child: Container(
+                      width: double.infinity,
+                      child: Image.network(
+                        product.image,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   FloatingActionButton(

@@ -41,6 +41,7 @@ class Carousel extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             final slide = slides[index];
             return Stack(
+              key: PageStorageKey(slide.title),
               fit: StackFit.expand,
               children: <Widget>[
                 Center(

@@ -147,6 +147,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    cartBloc.dispose();
+    _filterBloc.dispose();
+    navigationBloc.dispose();
+    super.dispose();
+  }
+
   Widget BarItemIcon(String icon) {
     return Image.asset(
       icon,

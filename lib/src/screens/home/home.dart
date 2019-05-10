@@ -15,8 +15,9 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final _scrollController = ScrollController();
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+  bool keepAlive = true;
+  final _scrollController = ScrollController(keepScrollOffset: true);
   final _scrollThreshold = 500.0;
   ProductBloc productBloc;
   FilterBloc filterBloc;
@@ -76,25 +77,31 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: AppColors.primary,
           color: AppColors.white,
           child: CustomScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            key: Key("HomeCustomScrollView"),
+            // physics: AlwaysScrollableScrollPhysics(),
+            // scrollDirection: Axis.vertical,
+            key: PageStorageKey("HomeCustomScrollView"),
             controller: _scrollController,
-            cacheExtent: 400,
+            // cacheExtent: 400,
             slivers: <Widget>[
               FilterBar(),
-              SliverGrid.count(
-                crossAxisCount: 1,
-                childAspectRatio: 16 / 9,
-                crossAxisSpacing: 0,
-                mainAxisSpacing: 0,
-                children: <Widget>[
-                  Padding(
+              SliverToBoxAdapter(
+                child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Carousel(),
                   ),
-                ],
               ),
+              // SliverGrid.count(
+              //   crossAxisCount: 1,
+              //   childAspectRatio: 16 / 9,
+              //   crossAxisSpacing: 0,
+              //   mainAxisSpacing: 0,
+              //   children: <Widget>[
+              //     Padding(
+              //       padding: const EdgeInsets.all(12),
+              //       child: Carousel(),
+              //     ),
+              //   ],
+              // ),
               SliverPadding(
                 padding: EdgeInsets.only(left: 12, right: 12, bottom: 20),
                 sliver: ProductsList(),
@@ -113,4 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     productBloc.getProducts(reload: true);
   }
+
+  @override
+  bool get wantKeepAlive => keepAlive;
 }

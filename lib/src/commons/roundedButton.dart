@@ -39,13 +39,16 @@ class RoundedButton extends StatelessWidget {
                 )
               : Container(width: 0),
           Expanded(
-            child: Center(
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Center(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),

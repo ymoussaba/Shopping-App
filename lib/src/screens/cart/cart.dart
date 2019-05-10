@@ -49,31 +49,81 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   Product product = products[index];
-                  return Row(
-                    children: <Widget>[
-                      Container(
-                        width: screenSize.width * 0.33,
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Card(
-                            elevation: 0,
-                            clipBehavior: Clip.hardEdge,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Image.network(
-                              product.image,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
+                  return productItem(product);
                 },
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget productItem(Product product) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1, color: AppColors.lightGrey)
+          )
+        ),
+        padding: EdgeInsets.only(bottom: 10),
+        height: 142,
+        child: Row(
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 1,
+              child: Card(
+                margin: EdgeInsets.all(0),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    product.title,
+                    style: TextStyles.productCartTitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  // SizedBox(height: 5),
+                  // Text("${product.product}, ${product.category}"),
+                  SizedBox(height: 5),
+                  Text("Quantity: 1"),
+                  SizedBox(height: 5),
+                  Text("${product.price} €", style: TextStyles.productPrice),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      child: FloatingActionButton(
+                        heroTag: "delete_${product.id}",
+                        backgroundColor: AppColors.redAccent,
+                        foregroundColor: AppColors.white,
+                        onPressed: (){
+                          cartBloc.remove(product);
+                        },
+                        child: Icon(Icons.delete),
+                        mini: true,
+                        elevation: 0,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

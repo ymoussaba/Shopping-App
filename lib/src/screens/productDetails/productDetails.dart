@@ -14,17 +14,22 @@ class ProductDetailsScreen extends StatelessWidget {
 
   var screenSize;
   ProductDetailsBloc detailsBloc = ProductDetailsBloc();
+  double bottomSafePadding;
 
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
+    bottomSafePadding = MediaQuery.of(context).padding.bottom;
     // cartBloc = BlocProvider.of<CartBloc>(context);
 
     return Scaffold(
       body: CustomScrollView(
+        controller: ScrollController(),
+        key: PageStorageKey("detailCustomScroll"),
         slivers: [
           appBar(),
           SliverList(
+            key: PageStorageKey("detailSliverList"),
             delegate: SliverChildListDelegate([
               Container(
                 padding: EdgeInsets.all(20),
@@ -111,9 +116,29 @@ class ProductDetailsScreen extends StatelessWidget {
       ],
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.parallax,
-        background: Image.network(
-          product.image,
-          fit: BoxFit.fitWidth,
+        background: Stack(
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            Container(
+              child: Hero(
+                tag: "heroProduct_${product.id}",
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              width: 120,
+              child: Container(
+                width: 120,
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -148,6 +173,7 @@ class ProductDetailsScreen extends StatelessWidget {
             (it) {
               final selected = detailsBloc.isSelected(it);
               return Expanded(
+                flex: selected ? 65 : 35,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: FlatButton(
@@ -199,8 +225,8 @@ class ProductDetailsScreen extends StatelessWidget {
 
   Widget bottomBar() {
     return Container(
-      height: 80,
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 32),
+      height: 70 + bottomSafePadding,
+      padding: EdgeInsets.only(top: 10, left: 32, right: 32, bottom: bottomSafePadding + 10),
       decoration: BoxDecoration(color: AppColors.white, boxShadow: [
         BoxShadow(
           offset: Offset(0, -1),
@@ -208,12 +234,15 @@ class ProductDetailsScreen extends StatelessWidget {
           blurRadius: 5,
         ),
       ]),
-      child: RoundedButton(
-        title: "Ajouter au panier",
-        icon: Icons.add_shopping_cart,
-        onTap: (){
-          cartBloc.add(product);
-        },
+      child: SizedBox(
+        width: 120,
+        child: RoundedButton(
+          title: "Ajouter au panier",
+          icon: Icons.add_shopping_cart,
+          onTap: (){
+            cartBloc.add(product);
+          },
+        ),
       ),
     );
   }
