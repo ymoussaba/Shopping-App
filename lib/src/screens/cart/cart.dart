@@ -33,34 +33,121 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         title: Text("YOUR CART", style: TextStyles.title),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: StreamBuilder(
-          stream: cartBloc.cartStream,
-          initialData: List<Product>(),
-          builder: (context, snapshot) {
-            List<Product> products = snapshot.data;
-            if (products == null || products.length == 0) {
-              return emptyCart();
-            }
-            return Container(
-              padding: EdgeInsets.all(20),
-              child: ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  Product product = products[index];
-                  return productItem(product, index);
-                },
-              ),
-            );
-          },
-        ),
+      body: Stack(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            child: StreamBuilder(
+              stream: cartBloc.cartStream,
+              initialData: List<Product>(),
+              builder: (context, snapshot) {
+                List<Product> products = snapshot.data;
+                if (products == null || products.length == 0) {
+                  return emptyCart();
+                }
+                return Container(
+                  padding: EdgeInsets.all(20),
+                  child: ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      Product product = products[index];
+                      return productItem(product, index);
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: StreamBuilder<Object>(
+                stream: cartBloc.cartStream,
+                builder: (context, snapshot) {
+                  List<Product> products = snapshot.data;
+                  if (products == null || products.length == 0) {
+                    return Container(width: 0);
+                  }
+                  final totalAmount = products
+                      .map((it) => double.parse(it.price))
+                      .reduce((x, y) => x + y);
+                  return Container(
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, -1),
+                          color: Colors.black.withAlpha(32),
+                          blurRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Total Price (${products.length} items) : ",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "${totalAmount.toStringAsFixed(2)} €",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.end,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Delivery :",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Free",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.redAccent),
+                                textAlign: TextAlign.end,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        RoundedButton(
+                          title: "Continue",
+                          onTap: () {},
+                          color: Colors.green,
+                        )
+                      ],
+                    ),
+                  );
+                }),
+          ),
+        ],
       ),
     );
   }
 
   @override
-  dispose(){
+  dispose() {
     super.dispose();
   }
 
@@ -70,11 +157,14 @@ class _CartScreenState extends State<CartScreen> {
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 1, color: AppColors.lightGrey)
-          )
+            bottom: BorderSide(
+              width: 1,
+              color: AppColors.lightGrey,
+            ),
+          ),
         ),
         padding: EdgeInsets.only(bottom: 10),
-        height: 142,
+        height: 124,
         child: Row(
           children: <Widget>[
             AspectRatio(
@@ -116,7 +206,7 @@ class _CartScreenState extends State<CartScreen> {
                         heroTag: "delete_${product.id}_$index",
                         backgroundColor: AppColors.redAccent,
                         foregroundColor: AppColors.white,
-                        onPressed: (){
+                        onPressed: () {
                           cartBloc.remove(product);
                         },
                         child: Icon(Icons.delete),

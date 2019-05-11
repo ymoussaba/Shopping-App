@@ -20,7 +20,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       padding: EdgeInsets.symmetric(vertical: 13),
-      color: AppColors.primary,
+      color: color,
       shape: RoundedRectangleBorder(
         side: BorderSide(
           style: BorderStyle.none,

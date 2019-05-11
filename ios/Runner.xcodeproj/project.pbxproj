@@ -145,7 +145,6 @@
 				F92C66DD6C13618DC4395CAB /* Pods-Runner.release.xcconfig */,
 				127EA32C1EA64E837114FB27 /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -193,6 +192,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -397,6 +397,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.shoppingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -522,6 +523,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.shoppingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -545,6 +547,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.shoppingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

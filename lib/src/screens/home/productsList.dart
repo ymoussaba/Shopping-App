@@ -9,6 +9,7 @@ import 'package:shopping_app/src/constants/images.dart';
 import 'package:shopping_app/src/constants/textStyles.dart';
 import 'package:shopping_app/src/models/product.dart';
 import 'package:shopping_app/src/screens/productDetails/productDetails.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 
 class ProductsList extends StatefulWidget {
   @override
@@ -84,6 +85,7 @@ class _ProductsListState extends State<ProductsList> {
               child: Stack(
                 alignment: Alignment.topRight,
                 children: <Widget>[
+                  // fake loader
                   Center(
                     child: SizedBox(
                       width: 24,
@@ -101,8 +103,17 @@ class _ProductsListState extends State<ProductsList> {
                     tag: "heroProduct_${product.id}",
                     child: Container(
                       width: double.infinity,
-                      child: Image.network(
-                        product.image,
+                      // child: Image.network(
+                      //   product.image,
+                      //   fit: BoxFit.cover,
+                      // ),
+                      child: Image(
+                        image: AdvancedNetworkImage(
+                          product.image,
+                          useDiskCache: true,
+                          printError: true,
+                          cacheRule: CacheRule(maxAge: const Duration(days: 7)),
+                        ),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -113,10 +124,13 @@ class _ProductsListState extends State<ProductsList> {
                     backgroundColor: AppColors.transparent,
                     elevation: 0,
                     child: Icon(
-                      Icons.favorite_border,
+                      product.bookmarked ? Icons.favorite : Icons.favorite_border,
                       color: AppColors.redAccent,
                     ),
-                    onPressed: () => {},
+                    onPressed: (){
+                      print("toggleBookmark ${product.id}");
+                      productBloc.toggleBookmark(product);
+                    },
                   )
                 ],
               ),

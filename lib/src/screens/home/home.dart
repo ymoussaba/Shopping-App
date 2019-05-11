@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   bool keepAlive = true;
   final _scrollController = ScrollController(keepScrollOffset: true);
-  final _scrollThreshold = 500.0;
+  final _scrollThreshold = 800.0;
   ProductBloc productBloc;
   FilterBloc filterBloc;
 

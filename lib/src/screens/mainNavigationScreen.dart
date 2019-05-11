@@ -29,7 +29,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final cartScreen = CartScreen();
   final profileScreen = Center(
-    child: Text("PROFILE"),
+    child: Text("COMING SOON"),
   );
 
   @override
@@ -70,9 +70,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
 
     //init the global appSizes once
-    if(appSizes == null || (appSizes != null && appSizes.sizes.height <= 100)){
-      appSizes = AppSizes.fromMediaQuery(MediaQuery.of(context));
-    }
+    // if(appSizes == null || (appSizes != null && appSizes.sizes.height <= 100)){
+    //   appSizes = AppSizes.fromMediaQuery(MediaQuery.of(context));
+    // }
+    appSizes = AppSizes.fromMediaQuery(MediaQuery.of(context));
 
     return Scaffold(
       body: StreamBuilder(

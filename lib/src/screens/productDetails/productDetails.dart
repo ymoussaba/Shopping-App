@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:shopping_app/src/blocs/blocProvider.dart';
 import 'package:shopping_app/src/blocs/cartBloc.dart';
 import 'package:shopping_app/src/blocs/productDetailsBloc.dart';
@@ -113,10 +114,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
 
     // start this animation and stop @ half
     _controller.animateTo(0.5).orCancel;
-    _controller.addListener((){
-      setState(() {
-        
-      });
+    _controller.addListener(() {
+      setState(() {});
     });
 
     /*=========================================*/
@@ -208,9 +207,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                 child: AnimatedBuilder(
                   animation: _controller,
                   builder: (context, child) {
-                    final width =
-                        _width != null ? _width.value : appSizes.sizes.width - 64.0;
-                    final radius = _borderRadius != null ? _borderRadius.value : 8.0;
+                    final width = _width != null
+                        ? _width.value
+                        : appSizes.sizes.width - 64.0;
+                    final radius =
+                        _borderRadius != null ? _borderRadius.value : 8.0;
                     return SizedBox(
                       height: 54,
                       width: width,
@@ -227,15 +228,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                             onTap: () async {
                               // widget.cartBloc.add(widget.product);
                               try {
-                                _right = Tween(
-                                  begin: (appSizes.sizes.width / 2 - 32).toDouble(),
-                                  end: 5.0,
-                                ).animate(
-                                  CurvedAnimation(
-                                    parent: _controller.view,
-                                    curve: Interval(0.65, 0.85, curve: Curves.fastOutSlowIn),
-                                  ),
-                                );
+                                // _right = Tween(
+                                //   begin: (appSizes.sizes.width / 2 - 32).toDouble(),
+                                //   end: 5.0,
+                                // ).animate(
+                                //   CurvedAnimation(
+                                //     parent: _controller.view,
+                                //     curve: Interval(0.65, 0.85, curve: Curves.fastOutSlowIn),
+                                //   ),
+                                // );
 
                                 _scale = Tween(
                                   begin: 1.0,
@@ -243,7 +244,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                                 ).animate(
                                   CurvedAnimation(
                                     parent: _controller.view,
-                                    curve: Interval(0.75, 0.85, curve: Curves.fastLinearToSlowEaseIn),
+                                    curve: Interval(0.75, 0.85,
+                                        curve: Curves.fastLinearToSlowEaseIn),
                                   ),
                                 );
 
@@ -253,26 +255,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                                 ).animate(
                                   CurvedAnimation(
                                     parent: _controller.view,
-                                    curve: Interval(0.85, 0.87, curve: Curves.fastLinearToSlowEaseIn),
+                                    curve: Interval(0.85, 0.87,
+                                        curve: Curves.fastLinearToSlowEaseIn),
                                   ),
                                 );
-                                await _controller.forward(from: 0.25).orCancel;
+                                _controller.forward(from: 0.45).orCancel;
+                                await Future.delayed(
+                                    Duration(milliseconds: 225));
+                                _right = Tween(
+                                  begin: (appSizes.sizes.width / 2 - 32)
+                                      .toDouble(),
+                                  end: 5.0,
+                                ).animate(
+                                  CurvedAnimation(
+                                    parent: _controller.view,
+                                    curve: Interval(0.65, 0.85,
+                                        curve: Curves.fastOutSlowIn),
+                                  ),
+                                );
+
+                                await Future.delayed(
+                                    Duration(milliseconds: 1025));
                                 widget.cartBloc.add(widget.product);
                                 // await Future.delayed(Duration(milliseconds: 1000));
                                 _controller.reset();
                                 _right = Tween(
                                   begin: 32.0,
-                                  end: (appSizes.sizes.width / 2 - 32).toDouble(),
+                                  end: (appSizes.sizes.width / 2 - 32)
+                                      .toDouble(),
                                 ).animate(
                                   CurvedAnimation(
                                     parent: _controller.view,
-                                    curve: Interval(0.5, 0.65, curve: Curves.fastLinearToSlowEaseIn),
+                                    curve: Interval(0.5, 0.65,
+                                        curve: Curves.fastLinearToSlowEaseIn),
                                   ),
                                 );
                                 _controller.animateTo(0.5).orCancel;
                               } on Error {
-                                print(
-                                    "Error when forwarding animation $Error");
+                                print("Error when forwarding animation $Error");
                               }
                             },
                           ),
@@ -349,8 +369,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
         background: Container(
           child: Hero(
             tag: "heroProduct_${widget.product.id}",
-            child: Image.network(
-              widget.product.image,
+            child: Image(
+              image: AdvancedNetworkImage(
+                widget.product.image,
+                useDiskCache: true,
+                printError: true,
+                cacheRule: CacheRule(maxAge: const Duration(days: 7)),
+              ),
               fit: BoxFit.cover,
             ),
           ),

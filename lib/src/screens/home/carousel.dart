@@ -51,7 +51,7 @@ class Carousel extends StatelessWidget {
                     child: CircularProgressIndicator(
                       backgroundColor: AppColors.white,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.white,
+                        AppColors.primary,
                       ),
                     ),
                   ),

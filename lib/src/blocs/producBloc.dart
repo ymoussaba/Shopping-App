@@ -7,7 +7,7 @@ import 'package:shopping_app/src/models/product.dart';
 
 class ProductBloc extends BlocBase {
   int _page = 1;
-  int _limit = 10;
+  int _limit = 20;
   bool _reachedEnd = false;
   bool _isLoading = false;
   String _filters = "";
@@ -48,6 +48,11 @@ class ProductBloc extends BlocBase {
     }
   }
 
+  toggleBookmark(Product product){
+    _products.singleWhere((it)=> it.id == product.id).bookmarked = !_products.singleWhere((it)=> it.id == product.id).bookmarked;
+    _subject.sink.add(_products);
+  }
+
   applyFilter(List<String> filters) {
     //send an null event to trigger loading state
     _subject.sink.add(null);
@@ -61,5 +66,4 @@ class ProductBloc extends BlocBase {
     _subject.close();
   }
 
-  // PublishSubject<List<Product>> get subject => _subject;
 }
