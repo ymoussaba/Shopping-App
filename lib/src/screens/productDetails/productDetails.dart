@@ -202,7 +202,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                 ),
               ),
               Positioned(
-                bottom: _bottom != null ? _bottom.value : 10.0,
+                bottom: _bottom != null ? _bottom.value + bottomSafePadding : 10.0 + bottomSafePadding,
                 right: _right != null ? _right.value : 32.0,
                 child: AnimatedBuilder(
                   animation: _controller,

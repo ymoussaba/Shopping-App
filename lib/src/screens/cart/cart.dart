@@ -37,6 +37,7 @@ class _CartScreenState extends State<CartScreen> {
         children: <Widget>[
           Container(
             alignment: Alignment.center,
+            padding: EdgeInsets.only(bottom: 120),
             child: StreamBuilder(
               stream: cartBloc.cartStream,
               initialData: List<Product>(),
@@ -183,39 +184,41 @@ class _CartScreenState extends State<CartScreen> {
             ),
             SizedBox(width: 10),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: <Widget>[
-                  Text(
-                    product.title,
-                    style: TextStyles.productCartTitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  // SizedBox(height: 5),
-                  // Text("${product.product}, ${product.category}"),
-                  SizedBox(height: 5),
-                  Text("Quantity: 1"),
-                  SizedBox(height: 5),
-                  Text("${product.price} €", style: TextStyles.productPrice),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton(
-                        //append index to avoid duplicate id for same product
-                        heroTag: "delete_${product.id}_$index",
-                        backgroundColor: AppColors.redAccent,
-                        foregroundColor: AppColors.white,
-                        onPressed: () {
-                          cartBloc.remove(product);
-                        },
-                        child: Icon(Icons.delete),
-                        mini: true,
-                        elevation: 0,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        product.title,
+                        style: TextStyles.productCartTitle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                      // SizedBox(height: 5),
+                      // Text("${product.product}, ${product.category}"),
+                      SizedBox(height: 5),
+                      Text("Quantity: 1"),
+                      SizedBox(height: 5),
+                      Text("${product.price} €", style: TextStyles.productPrice),
+                    ],
                   ),
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          //append index to avoid duplicate id for same product
+                          heroTag: "delete_${product.id}_$index",
+                          backgroundColor: AppColors.redAccent,
+                          foregroundColor: AppColors.white,
+                          onPressed: () {
+                            cartBloc.remove(product);
+                          },
+                          child: Icon(Icons.delete),
+                          mini: true,
+                          elevation: 0,
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      ),
                 ],
               ),
             ),
