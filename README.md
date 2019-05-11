@@ -1,6 +1,6 @@
 # Shopping App
 
-A Flutter project using BLoC, RxDart, Some animations
+A Flutter project using BLoC, RxDart, Some animations and other stuffs
 
 ## Getting Started
 
