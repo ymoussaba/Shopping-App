@@ -29,15 +29,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
 
   Animation<double> _scale;
   Animation<double> _opacity;
+  Animation<double> _width;
+  Animation<double> _borderRadius;
+  Animation<double> _right;
+  Animation<double> _bottom;
 
-  Animation<double> _toCartWidth;
-  Animation<double> _toCartBorderRadius;
-  Animation<double> _toCartOpacity;
-  Animation<double> _toCartRight;
-
-  // Animation<double> _top;
-  // Animation<double> _right;
   double screenX = appSizes.sizes.width / 2;
+  double screenH = appSizes.sizes.height;
 
   @override
   void initState() {
@@ -46,12 +44,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
     // init anim ctlr
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-
-    _addToCartController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 3000),
     );
 
     /*=========================================*/
@@ -64,7 +57,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
     ).animate(
       CurvedAnimation(
         parent: _controller.view,
-        curve: Interval(0.25, 1.0, curve: Curves.elasticOut),
+        curve: Interval(0.1, 0.5, curve: Curves.elasticOut),
       ),
     );
 
@@ -74,56 +67,61 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
     ).animate(
       CurvedAnimation(
         parent: _controller.view,
-        curve: Interval(0.25, 1.0, curve: Curves.ease),
+        curve: Interval(0.1, 0.5, curve: Curves.ease),
       ),
     );
 
-    // start this animation
-    _controller.forward().orCancel;
+    _width = Tween(
+      begin: appSizes.sizes.width - 64,
+      end: 64.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller.view,
+        curve: Interval(0.5, 0.65, curve: Curves.fastLinearToSlowEaseIn),
+      ),
+    );
+
+    _borderRadius = Tween(
+      begin: 8.0,
+      end: 27.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller.view,
+        curve: Interval(0.5, 0.51, curve: Curves.fastLinearToSlowEaseIn),
+      ),
+    );
+
+    _right = Tween(
+      begin: 32.0,
+      end: screenX - 32.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller.view,
+        curve: Interval(0.5, 0.65, curve: Curves.fastLinearToSlowEaseIn),
+      ),
+    );
+
+    _bottom = Tween(
+      begin: 10.0,
+      end: (screenH - appSizes.safePadding.top) - 54,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller.view,
+        curve: Interval(0.65, 0.85, curve: Curves.fastLinearToSlowEaseIn),
+      ),
+    );
+
+    // start this animation and stop @ half
+    _controller.animateTo(0.5).orCancel;
+    _controller.addListener((){
+      setState(() {
+        
+      });
+    });
 
     /*=========================================*/
     /*========= add to cart animation =========*/
     /*=========================================*/
-
-    _toCartBorderRadius = Tween(
-      begin: 8.0,
-      end: 75.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _addToCartController.view,
-        curve: Interval(0.0, 0.25, curve: Curves.easeInCirc),
-      ),
-    );
-
-    _toCartWidth = Tween(
-      begin: 200.0,
-      end: 54.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _addToCartController.view,
-        curve: Interval(0.0, 0.25, curve: Curves.easeInCirc),
-      ),
-    );
-
-    _toCartOpacity = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _addToCartController.view,
-        curve: Interval(0.0, 0.0, curve: Curves.easeInCirc),
-      ),
-    );
-    // final right = appSizes.sizes.width;
-    // _toCartRight = Tween(
-    //   begin: 200.0,
-    //   end: 12,
-    // ).animate(
-    //   CurvedAnimation(
-    //     parent: _addToCartController.view,
-    //     curve: Interval(0.0, 1.0, curve: Curves.ease),
-    //   ),
-    // );
   }
 
   @override
@@ -135,54 +133,166 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
     timeDilation = 1.0; // 1.0 is normal animation speed.
 
     return Scaffold(
-      body: CustomScrollView(
-        controller: ScrollController(),
-        key: PageStorageKey("detailCustomScroll"),
-        slivers: [
-          appBar(),
-          SliverList(
-            key: PageStorageKey("detailSliverList"),
-            delegate: SliverChildListDelegate([
-              Container(
-                padding: EdgeInsets.all(20),
-                color: AppColors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    productTitle(),
-                    SizedBox(height: 20),
-                    Text("Options", style: TextStyles.productDetailsSection),
-                    SizedBox(height: 10),
-                    productOptions(),
-                    SizedBox(height: 20),
-                    Text("Description",
-                        style: TextStyles.productDetailsSection),
-                    SizedBox(height: 10),
-                    Text(
-                      "Maecenas faucibus mollis interdum. Nulla vitae elit libero, a pharetra augue. "
-                      "Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. "
-                      "Cras mattis consectetur purus sit amet fermentum.",
-                      style: TextStyles.productDetails,
+      body: Stack(
+        children: <Widget>[
+          CustomScrollView(
+            controller: ScrollController(),
+            key: PageStorageKey("detailCustomScroll"),
+            slivers: [
+              appBar(),
+              SliverList(
+                key: PageStorageKey("detailSliverList"),
+                delegate: SliverChildListDelegate([
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    color: AppColors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 20),
+                        productTitle(),
+                        SizedBox(height: 20),
+                        Text("Options",
+                            style: TextStyles.productDetailsSection),
+                        SizedBox(height: 10),
+                        productOptions(),
+                        SizedBox(height: 20),
+                        Text("Description",
+                            style: TextStyles.productDetailsSection),
+                        SizedBox(height: 10),
+                        Text(
+                          "Maecenas faucibus mollis interdum. Nulla vitae elit libero, a pharetra augue. "
+                          "Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. "
+                          "Cras mattis consectetur purus sit amet fermentum.",
+                          style: TextStyles.productDetails,
+                        ),
+                        SizedBox(height: 40),
+                        productInfos(),
+                        SizedBox(height: 94 + bottomSafePadding),
+                      ],
                     ),
-                    SizedBox(height: 40),
-                    productInfos(),
-                    SizedBox(height: 40),
-                  ],
+                  ),
+                ]),
+              ),
+            ],
+          ),
+          Stack(
+            children: <Widget>[
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: Container(
+                  height: 70 + bottomSafePadding,
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    left: 32,
+                    right: 32,
+                    bottom: bottomSafePadding + 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, -1),
+                        color: Colors.black.withAlpha(32),
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ]),
+              Positioned(
+                bottom: _bottom != null ? _bottom.value : 10.0,
+                right: _right != null ? _right.value : 32.0,
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    final width =
+                        _width != null ? _width.value : appSizes.sizes.width - 64.0;
+                    final radius = _borderRadius != null ? _borderRadius.value : 8.0;
+                    return SizedBox(
+                      height: 54,
+                      width: width,
+                      child: Transform(
+                        transform: Matrix4.identity()
+                          ..scale(_scale.value, _scale.value, 1.0),
+                        alignment: FractionalOffset.center,
+                        child: Opacity(
+                          opacity: _opacity.value,
+                          child: RoundedButton(
+                            borderRadius: radius,
+                            title: "Ajouter au panier",
+                            icon: Icons.add_shopping_cart,
+                            onTap: () async {
+                              // widget.cartBloc.add(widget.product);
+                              try {
+                                _right = Tween(
+                                  begin: (appSizes.sizes.width / 2 - 32).toDouble(),
+                                  end: 5.0,
+                                ).animate(
+                                  CurvedAnimation(
+                                    parent: _controller.view,
+                                    curve: Interval(0.65, 0.85, curve: Curves.fastOutSlowIn),
+                                  ),
+                                );
+
+                                _scale = Tween(
+                                  begin: 1.0,
+                                  end: 0.35,
+                                ).animate(
+                                  CurvedAnimation(
+                                    parent: _controller.view,
+                                    curve: Interval(0.75, 0.85, curve: Curves.fastLinearToSlowEaseIn),
+                                  ),
+                                );
+
+                                _opacity = Tween(
+                                  begin: 1.0,
+                                  end: 0.0,
+                                ).animate(
+                                  CurvedAnimation(
+                                    parent: _controller.view,
+                                    curve: Interval(0.85, 0.87, curve: Curves.fastLinearToSlowEaseIn),
+                                  ),
+                                );
+                                await _controller.forward(from: 0.25).orCancel;
+                                widget.cartBloc.add(widget.product);
+                                // await Future.delayed(Duration(milliseconds: 1000));
+                                _controller.reset();
+                                _right = Tween(
+                                  begin: 32.0,
+                                  end: (appSizes.sizes.width / 2 - 32).toDouble(),
+                                ).animate(
+                                  CurvedAnimation(
+                                    parent: _controller.view,
+                                    curve: Interval(0.5, 0.65, curve: Curves.fastLinearToSlowEaseIn),
+                                  ),
+                                );
+                                _controller.animateTo(0.5).orCancel;
+                              } on Error {
+                                print(
+                                    "Error when forwarding animation $Error");
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),
-      bottomNavigationBar: bottomBar(),
+      // bottomNavigationBar: bottomBar(),
     );
   }
 
   @override
   dispose() {
     _controller.dispose();
-    _addToCartController.dispose();
     detailsBloc.dispose();
     super.dispose();
   }
@@ -329,85 +439,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
   }
 
   Widget bottomBar() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          width: appSizes.sizes.width,
-          height: appSizes.sizes.height,
-          child: AnimatedBuilder(
-            animation: _addToCartController,
-            builder: (context, child) {
-              final borderRadius =
-                  _toCartBorderRadius != null ? _toCartBorderRadius.value : 8;
-              // final right = screenX;
-              return Container(
-                // height: 54 + bottomSafePadding,
-                color: Colors.pinkAccent,
-                // height: appSizes.sizes.height,
-                // width: appSizes.sizes.width,
-                // alignment: Alignment.bottomCenter,
-                // color: Colors.tealAccent,
-                child: Opacity(
-                  opacity: _toCartOpacity.value,
-                  child: Container(
-                    transform: Matrix4.translationValues(10, 0, 0),
-                    height: 54,
-                    width: _toCartWidth.value,
-                    child: RoundedButton(
-                      borderRadius: borderRadius,
-                      title: "",
-                      onTap: () async {},
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        Container(
+    return SizedBox(
+      height: appSizes.sizes.height,
+      // color: Colors.red,
+      child: Stack(
+        fit: StackFit.loose,
+        children: <Widget>[
+          Container(
             height: 70 + bottomSafePadding,
             padding: EdgeInsets.only(
                 top: 10, left: 32, right: 32, bottom: bottomSafePadding + 10),
             decoration: BoxDecoration(
-              color: AppColors.transparent,
+              color: AppColors.redAccent,
               boxShadow: [
                 BoxShadow(
-                  offset: Offset(0, -10),
+                  offset: Offset(0, -1),
                   color: Colors.black.withAlpha(32),
                   blurRadius: 5,
                 ),
               ],
             ),
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform(
-                  transform: Matrix4.identity()
-                    ..scale(_scale.value, _scale.value, 1.0),
-                  alignment: FractionalOffset.center,
-                  child: Opacity(
-                    opacity: _opacity.value,
-                    child: RoundedButton(
-                      title: "Ajouter au panier",
-                      icon: Icons.add_shopping_cart,
-                      onTap: () async {
-                        // widget.cartBloc.add(widget.product);
-                        try {
-                          _controller.reverse().orCancel;
-                          await Future.delayed(Duration(milliseconds: 750));
-                          _addToCartController.forward().orCancel;
-                          // await Future.delayed(Duration(milliseconds: 50000));
-                          // await _controller.forward().orCancel;
-                        } on Error {
-                          print("Error when forwarding animation $Error");
-                        }
-                      },
-                    ),
-                  ),
-                );
-              },
-            )),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }

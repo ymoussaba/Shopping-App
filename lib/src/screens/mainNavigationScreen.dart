@@ -70,7 +70,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
 
     //init the global appSizes once
-    if(appSizes == null){
+    if(appSizes == null || (appSizes != null && appSizes.sizes.height <= 100)){
       appSizes = AppSizes.fromMediaQuery(MediaQuery.of(context));
     }
 

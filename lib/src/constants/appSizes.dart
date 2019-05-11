@@ -7,11 +7,12 @@ class AppSizes {
   AppSizes(this.sizes, this.safePadding);
 
   factory AppSizes.fromMediaQuery(MediaQueryData mQData) {
-    print("AppSizes initialized");
-    return AppSizes(
+    final apps = AppSizes(
       mQData.size,
       mQData.padding,
     );
+    print("AppSizes initialized ${apps.toString()}");
+    return apps;
   }
 }
 

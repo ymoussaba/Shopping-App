@@ -49,7 +49,7 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   Product product = products[index];
-                  return productItem(product);
+                  return productItem(product, index);
                 },
               ),
             );
@@ -59,7 +59,12 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget productItem(Product product) {
+  @override
+  dispose(){
+    super.dispose();
+  }
+
+  Widget productItem(Product product, int index) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
@@ -107,7 +112,8 @@ class _CartScreenState extends State<CartScreen> {
                     child: Container(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
-                        heroTag: "delete_${product.id}",
+                        //append index to avoid duplicate id for same product
+                        heroTag: "delete_${product.id}_$index",
                         backgroundColor: AppColors.redAccent,
                         foregroundColor: AppColors.white,
                         onPressed: (){
